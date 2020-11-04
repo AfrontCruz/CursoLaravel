@@ -1,0 +1,8 @@
+{
+    "database":{
+        "user":"portalci_escom",
+        "password":"Laravel3sc0m",
+        "server":"209.59.139.150",
+        "nameDB":"portalci_tickets"
+    }
+}
