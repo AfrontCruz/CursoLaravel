@@ -1,15 +1,15 @@
 <?php
 
-require( '../model/task.php');
+require( '../model/answer.php');
 require( './controller.php');
 require( './interface_controller.php');
 
-class TaskController extends Controller implements interface_controller{
-    private $task;
+class AnswerController extends Controller implements interface_controller{
+    private $answer;
 
     public function __construct(){
-        parent::__construct("task");
-        $this->task = new Task( $this->data );
+        parent::__construct("answer"); 
+        $this->answer = new Answer( $this->data );
     }
 
     public function exec(){
@@ -18,8 +18,7 @@ class TaskController extends Controller implements interface_controller{
     }
 
     public function POST(){
-        print_r( json_encode( $this->data->data ) );
-        print_r( json_encode($this->params) );
+        print_r( $this );
     }
     public function GET(){}
     public function PUT(){}
@@ -29,5 +28,5 @@ class TaskController extends Controller implements interface_controller{
 
 }
 
-$taskController = new TaskController();
-$taskController->exec();
+$answerController = new AnswerController();
+$answerController->exec();
