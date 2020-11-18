@@ -5,11 +5,11 @@ require( './controller.php');
 require( './interface_controller.php');
 
 class UserController extends Controller implements interface_controller{
-    private $User;
+    private $user;
 
     public function __construct(){
         parent::__construct("user"); 
-        $this->user = new User( $this->data );
+        $this->user = new User( $this->data->user );
     }
 
     public function exec(){
@@ -18,9 +18,11 @@ class UserController extends Controller implements interface_controller{
     }
 
     public function POST(){
-        print_r( $this );
+        print_r( json_encode( $this->user->create() ) );
     }
-    public function GET(){}
+    public function GET(){
+        print_r( json_encode( $this->user->read() ) );
+    }
     public function PUT(){}
     public function DELETE(){}
     public function find(){}

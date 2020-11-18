@@ -11,7 +11,7 @@ class database
 
     public function __construct()
     {
-        $database_info = json_decode( file_get_contents("../config.json") );
+        $database_info = json_decode( file_get_contents("../config.json") ); 
         $this->user = $database_info->database->user;
         $this->password = $database_info->database->password;
         $this->server = $database_info->database->server;
@@ -43,19 +43,18 @@ class database
     public function read($sql)
     {
         $this->conn->query('SET CHARACTER SET utf8');
-        $consulta = $this->conn->query($sql);
+        $query = $this->conn->query($sql);
         $error = $this->conn->errorInfo();
         if( $error[0] == 0 ){
-            $resultado = $consulta->fetchAll(PDO::FETCH_OBJ);
+            $result = $query->fetchAll(PDO::FETCH_OBJ);
         }        
-        else if( $error[0] == 23000 ){
-            $resultado = [null, "Registro duplicado"];
-        }
-        else{
-            $resultado = [null, $error[2]];
-        }
-
-        return $resultado;
+        // else if( $error[0] == 23000 ){
+        //     $resultado = [null, "Registro duplicado"];
+        // }
+        // else{
+        //     $resultado = [null, $error[2]];
+        // }
+        return $result;
     }
 
     public function update($sql){
