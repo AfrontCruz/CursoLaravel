@@ -48,6 +48,50 @@ class User implements \JsonSerializable{
         $response = new response( $array_user, true, null );
         return $response;
     }
+
+    public function find($key){
+        $query = "SELECT email, username, type, created, updated FROM User 
+        WHERE email = '$key' OR username = '$key';";
+        $db = new database();
+        $db->getConn();
+        $array_user = Array();
+        $result = $db->read( $query );
+        foreach( $result as $item ){
+            $user = new User( $item );
+            array_push( $array_user, $user );
+        }
+        $response = new response( $array_user, true, null );
+        return $response;
+    }
+
+    public function update($data){
+        if( $data->attrib == 'password' ){
+            return new response(null, false, "No se puede actualizar la contraseña" );
+        }
+        $query = "UPDATE User SET $data->attrib = '$data->value' WHERE email = '$data->key' 
+        OR username = '$data->key';";
+        $db = new database();
+        $db->getConn();
+        $result = $db->update( $query ); // True or False
+        if( $response )
+            $response = new response( null, $result, "Se actualizó $data->attrib" );
+        else
+            $response = new response( null, $result, null );
+        return $response;
+    }
+
+    public function delete($key){
+        $query = "DELETE FROM User
+        WHERE email = '$key' OR username = '$key';";
+        $db = new database();
+        $db->getConn();
+        $result = $db->delete( $query ); // True or False
+        if( $result )
+            $response = new response( null, $result, "Se elimino $key" );
+        else 
+            $response = new response( null, $result, null );
+        return $response;
+    }
     
      /**
      * @inheritDoc

@@ -22,6 +22,10 @@ class Answer implements \JsonSerializable{
         if( isset( $data->updated ))
             $this->updated = $data->updated;
     }
+
+    public function create(){
+        $query = "INSERT INTO Answer ...";
+    }
     
      /**
      * @inheritDoc

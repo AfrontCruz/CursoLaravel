@@ -6,6 +6,6 @@ interface interface_controller{
     public function GET();
     public function PUT();
     public function DELETE();
-    public function find();
+    public function find($key);
 }
 ?>
