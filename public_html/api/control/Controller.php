@@ -1,6 +1,7 @@
 <?php
 require( '../utils/url.php');
 
+header('Access-Control-Allow-Origin: *');
 header('Content-Type: application/json');
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, X-Requested-With, Authorization");
@@ -14,22 +15,22 @@ class Controller{
         $this->data = json_decode( file_get_contents('php://input') );
         $this->method = $_SERVER['REQUEST_METHOD'];
         $url = new url( $_SERVER['REQUEST_URI'], $name );
-        $this->params = $url->getparams();
+        $this->params = $url->getParams();
     }
 
     public function exec(){
         print_r( $this );
     }
 
-    public function getdata(){
+    public function getData(){
         return $this->data;
     }
 
-    public function getmethod(){
+    public function getMetodo(){
         return $this->method;
     }
 
-    public function getparams(){
+    public function getParametros(){
         return $this->params;
     }
 }

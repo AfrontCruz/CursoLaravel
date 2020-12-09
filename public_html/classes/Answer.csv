@@ -1,0 +1,6 @@
+Clase,Answer,,,,
+Tipo,Nombre,C,R,U,PK
+int,id,1,1,0,1
+string,content,1,1,1,0
+string,email_user,1,1,1,1
+string,created,0,1,0,1

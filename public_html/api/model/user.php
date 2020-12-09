@@ -1,59 +1,48 @@
 <?php
 
-require( '../database/database.php' );
-require( '../utils/response.php' );
+require('../model/Model.php');
 
-class User implements \JsonSerializable{
+class User extends Model implements \JsonSerializable {
 	private $email;
 	private $username;
 	private $type;
 	private $password;
-	private $created;
-	private $updated;
 
-	public function __construct( $data ){
-        if( isset( $data->email ) )
-            $this->email = $data->email;
-        if( isset( $data->username ))
-            $this->username = $data->username;
-        if( isset( $data->type ))
-            $this->type = $data->type;
-        if( isset( $data->password ))
-            $this->password = $data->password;
-        if( isset( $data->created ))
-            $this->created = $data->created;
-        if( isset( $data->updated ))
-            $this->updated = $data->updated;
-    }
-
-    public function create(){
-        $query = "CALL sp_insert_user( '$this->email', '$this->username', '$this->password')";
-        $db = new database();
-        $db->getConn();
-        $store = $db->create( $query );
-        $response = new response(null, $store, null);
-        return $response;
-    }
-
-    public function read(){
-        $query = "SELECT email, username, type, created, updated FROM User";
-        $db = new database();
-        $db->getConn();
-        $array_user = Array();
-        $result = $db->read( $query );
-        foreach( $result as $item ){
-            $user = new User( $item );
-            array_push( $array_user, $user );
-        }
-        $response = new response( $array_user, true, null );
-        return $response;
-    }
-    
-     /**
-     * @inheritDoc
-     */
-    public function jsonSerialize(){
-        $vars = get_object_vars($this);
-        return $vars;
-    }
+	public function __construct($data){
+		if( isset( $data->email) )
+			$this->email = $data->email;
+		if( isset( $data->username) )
+			$this->username = $data->username;
+		if( isset( $data->type) )
+			$this->type = $data->type;
+		if( isset( $data->password) )
+			$this->password = $data->password;
+	}
+	public function create(){
+		$query = "CALL sp_insert_user('$this->email','$this->username','$this->password')";
+		return parent::createSQL( $query );
+	}
+	public function read(){
+		$query = "SELECT email,username,type FROM User";
+		return parent::readSQL($query, "User");
+	}
+	public function update($data){
+		$query = "UPDATE User SET $data->attribute = '$data->value' WHERE email = '$data->email';";
+		return parent::updateSQL( $query );
+	}
+	public function delete($data){
+		$query = "DELETE FROM User WHERE  email = '$data->email';";
+		return parent::deleteSQL($query);
+	}
+	public function find( $email ){
+		$query = "SELECT email,username,type FROM User WHERE email = '$email' OR username = '$email';";
+		return parent::readSQL($query, "User");
+	}
+	public function rawSelect($sql){
+		return parent::readSQL($sql, "User");
+	}
+	public function jsonSerialize(){
+		$vars = get_object_vars($this);
+		return $vars;
+	}
 }

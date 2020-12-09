@@ -1,0 +1,6 @@
+Clase,Usuario,,,,
+Tipo,Nombre,C,R,U,PK
+string,numeroEmpleado,1,1,0,1
+string,clave,1,0,1,0
+int,intento,0,1,1,0
+string,signed,0,1,1,0

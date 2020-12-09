@@ -1,20 +1,20 @@
 <?php
 
-class response implements \JsonSerializable{
+class Response implements \JsonSerializable{
     private $data;
     private $isSuccess;
-    private $msg;
+    private $messagge;
 
     /**
      * Respuesta constructor.
      * @param $data
      * @param $isSuccess
-     * @param $msg
+     * @param $messagge
      */
-    public function __construct($data, $isSuccess, $msg){
+    public function __construct($data, $isSuccess, $messagge){
         $this->data = $data;
         $this->isSuccess = $isSuccess;
-        $this->msg = $msg;
+        $this->messagge = $messagge;
     }
 
     /**
@@ -52,17 +52,17 @@ class response implements \JsonSerializable{
     /**
      * @return mixed
      */
-    public function getMsg()
+    public function getMessagge()
     {
-        return $this->msg;
+        return $this->messagge;
     }
 
     /**
-     * @param mixed $msg
+     * @param mixed $messagge
      */
-    public function setMsg($msg)
+    public function setMessagge($messagge)
     {
-        $this->msg = $msg;
+        $this->messagge = $messagge;
     }
 
     /**

@@ -1,0 +1,6 @@
+Clase,Question,,,,
+Tipo,Nombre,C,R,U,PK
+int,id,0,1,0,1
+string,question,1,1,1,0
+string,email_user,1,1,1,0
+string,theme,1,1,1,0

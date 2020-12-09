@@ -1,6 +1,6 @@
 <?php
 
-interface interface_controller{
+interface InterfaceController{
     public function exec();
     public function POST();
     public function GET();

@@ -1,0 +1,6 @@
+Clase,User,,,,
+Tipo,Nombre,C,R,U,PK
+string,email,1,1,1,1
+string,username,1,1,1,0
+string,type,1,1,1,0
+string,password,1,0,1,0

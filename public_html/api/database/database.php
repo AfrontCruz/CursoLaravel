@@ -1,71 +1,66 @@
 <?php
-
 class database
 {
     public $user;
     public $password;
     public $server;
-    public $nameDB;
+    public $name;
 
-    public $conn;
+    public $connection;
 
     public function __construct()
     {
-        $database_info = json_decode( file_get_contents("../config.json") ); 
+        $database_info = json_decode( file_get_contents("../config.json") );
         $this->user = $database_info->database->user;
         $this->password = $database_info->database->password;
         $this->server = $database_info->database->server;
-        $this->nameDB = $database_info->database->nameDB;
+        $this->name = $database_info->database->name;
     }
 
-    public function getConn()
+    public function getConnection()
     {
-        $this->conn = null;
+        $this->connection = null;
         try {
-            $this->conn = new PDO("mysql:host=" . $this->server
-                . ";dbname=" . $this->nameDB
+            $this->connection = new PDO("mysql:host=" . $this->server
+                . ";dbname=" . $this->name
                 , $this->user, $this->password);
-            $this->conn->exec("set names uft8");
-            return $this->conn;
+            $this->connection->exec("set names uft8");
+            return $this->connection;
         } catch (PDOException $exception) {
-            echo "Error de conexión: " . $exception->getMessage();
+            echo "Error from get Connection: " . $exception->getMessage() . "\n\n";
         }
     }
 
     public function create($sql)
     {
-        $this->conn->query('SET CHARACTER SET utf8');
-        $consulta = $this->conn->prepare($sql);
-        $count = $this->conn->exec($sql);
+        $count = $this->connection->exec($sql);
         return $count > 0 ?  true :  false;
     }
 
     public function read($sql)
     {
-        $this->conn->query('SET CHARACTER SET utf8');
-        $query = $this->conn->query($sql);
-        $error = $this->conn->errorInfo();
+        $query = $this->connection->query($sql);
+        $error = $this->connection->errorInfo();
         if( $error[0] == 0 ){
-            $result = $query->fetchAll(PDO::FETCH_OBJ);
-        }        
-        // else if( $error[0] == 23000 ){
-        //     $resultado = [null, "Registro duplicado"];
-        // }
-        // else{
-        //     $resultado = [null, $error[2]];
-        // }
-        return $result;
+            $resultado = $query->fetchAll(PDO::FETCH_OBJ);
+        }     
+        else if( $error[0] == 23000 ){
+            $resultado = [null, "Registro duplicado"];
+        }
+        else{
+            $resultado = [null, $error[2]];
+        }
+
+        return $resultado;
     }
 
     public function update($sql){
-        $this->conn->query('SET CHARACTER SET utf8');
-        $count = $this->conn->exec($sql);
+        $count = $this->connection->exec($sql);
         return $count > 0 ?  true :  false;
     }
 
     public function delete($sql){
-        $this->conn->query('SET CHARACTER SET utf8');
-        $count = $this->conn->exec($sql);
+        $count = $this->connection->exec($sql);
         return $count > 0 ?  true :  false;
     }
 }
